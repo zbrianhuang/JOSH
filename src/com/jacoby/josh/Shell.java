@@ -2,8 +2,6 @@ package com.jacoby.josh;
 /**
  * Author: Jacoby Blanke 
  * Program Name: (J)ava (O)riented (Sh)ell - or JOSh 
- * Description: A basic interactive shell written in java. Builtin commands 
- *      include: "cd", "history", and "exit". * Date: April 29, 2021 
  */
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
