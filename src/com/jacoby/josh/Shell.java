@@ -28,9 +28,11 @@ public class Shell {
             File f = new File(System.getProperty("user.home") + "/" + directory.substring(2));      
             if (f.isDirectory()) {        
                 try {          
-                    PrintWriter writer = new PrintWriter(new FileOutputStream(System.getProperty("java.io.tmpdir")             
+                    PrintWriter writer = new PrintWriter(
+                            new FileOutputStream(System.getProperty("java.io.tmpdir")             
                                 + "/joshdir-" + append, false));          
-                    writer.println(System.getProperty("user.home") + '/' + directory.substring(2));
+                    writer.println((System.getProperty("user.home") + '/' + directory.substring(2))
+                            .replaceAll("//","/").replaceAll(".$", ""));
                     writer.close();        
                 } catch (Exception e) {System.out.println(e);}      
             } else        
@@ -42,7 +44,7 @@ public class Shell {
                     PrintWriter 
                         writer = new PrintWriter(new FileOutputStream(System.getProperty("java.io.tmpdir")            
                                     + "/joshdir-" + append, false));          
-                    writer.println(directory);          
+                    writer.println(directory.replaceAll("//","/").replaceAll(".$", ""));          
                     writer.close();        
                 } catch (Exception e) {System.out.println(e);}      
             }    
@@ -52,7 +54,7 @@ public class Shell {
                 try {         
                     PrintWriter writer = new PrintWriter(new FileOutputStream(System.getProperty("java.io.tmpdir")            
                                 + "/joshdir-" + append, false));          
-                    writer.println(currentDir + '/' + directory);
+                    writer.println((currentDir + '/' + directory).replaceAll("//", "/").replaceAll(".$", ""));
                     writer.close();       
                 } catch (Exception e) {System.out.println(e);}   
             }    
@@ -97,7 +99,7 @@ public class Shell {
         boolean exit = false; 
         String command;  
         Scanner in = new Scanner(System.in); 
-        System.out.print("\n" + conf.PROMPT);  
+        System.out.print("\n" + conf.PROMPT(append));  
         command = in.nextLine(); 
         if (command.startsWith("cd "))  
             cd(command.substring(3));
