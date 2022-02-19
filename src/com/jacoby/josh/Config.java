@@ -16,7 +16,7 @@ public class Config {
     private static String date = java.time.LocalDate.now().toString();
     private static String time = java.time.LocalTime.now().toString();
 
-    public static String PROMPT(int append) { //sets the shell's command prompt 
+    public static String PROMPT(int append) { 
         try {
             dir = Files.readAllLines(Paths.get(System.getProperty("java.io.tmpdir")
                             + "/joshdir-" + append)).get(0) + '/';
@@ -24,7 +24,7 @@ public class Config {
             dir = System.getProperty("user.dir");
         }
 
-        return "(" + name + ":" + dir + ":" + date + ") - ";
+        return "(" + name + ":" + dir + ":" + date + ") - "; //this is where you actually change the prompt
     }    
 }
 
