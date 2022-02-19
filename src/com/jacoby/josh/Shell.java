@@ -13,14 +13,23 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Scanner;
+import javax.swing.JFrame;
+import javax.swing.JRootPane;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Shell {  
     private static int append;  
     private static String currentDir, historyArray[] = new String[500];  
+    private static int in;
+
     public Shell(int app, String dir) {     
         append = app;    
         currentDir = dir;
     }  
+
     public static void cd(String directory) {  
         if (directory.startsWith("~")) {       
             File f = new File(System.getProperty("user.home") + "/" + directory.substring(2));      
@@ -95,10 +104,25 @@ public class Shell {
     public static boolean run(String dir) {
         Config conf = new Config();
         boolean exit = false; 
-        String command;  
+        String command = "";  
         Scanner in = new Scanner(System.in); 
         System.out.print("\n" + conf.PROMPT(append));  
-        command = in.nextLine(); 
+        
+        for (;;) {
+            int i = getCh();
+            if (i == 10) 
+                break;
+            else if (i == 9) {
+                System.out.print(autoComplete(command));
+                command += autoComplete(command);
+            }
+            else {
+                command += (char)i;
+                System.out.print((char)i);
+            }
+        }
+
+        System.out.println();
         if (command.startsWith("cd "))  
             cd(command.substring(3));
         else if (command.trim().equals("history"))   
@@ -109,5 +133,74 @@ public class Shell {
         else    
             execute(command);
         return exit;
-    }  
+    }
+    
+    public static String autoComplete(String command) {
+            
+        List<String> results = new ArrayList<String>();
+
+        File[] bin = new File("/bin").listFiles();
+        File[] sbin = new File("/sbin").listFiles();
+        File[] usrBin = new File("/usr/bin").listFiles();
+        File[] usrSbin = new File("/usr/sbin").listFiles();
+        for (File file : bin) {
+            if (file.isFile())
+                results.add(file.getName());
+        }
+        for (File file : sbin) {
+            if (file.isFile())
+                results.add(file.getName());
+        }
+        for (File file : usrBin) {
+            if (file.isFile())
+                results.add(file.getName());
+        }
+        for (File file : usrSbin) {
+            if (file.isFile())
+                results.add(file.getName());
+        }
+        
+        for (int i = 0; i < results.size(); i++) {
+            if (results.get(i).startsWith(command)) {
+                return results.get(i).replaceFirst(command, "");
+            }
+        }
+        return "";
+    }
+
+    public static int getCh() {
+        final JFrame frame = new JFrame();
+        synchronized (frame) {
+            frame.setUndecorated(true);
+            frame.getRootPane().setWindowDecorationStyle(JRootPane.FRAME);
+            frame.setAlwaysOnTop(true);
+            frame.setFocusTraversalKeysEnabled(false);
+            frame.addKeyListener(new KeyListener() {
+                @Override
+                public void keyPressed(KeyEvent e) {
+                    synchronized (frame) {
+                        frame.setVisible(false);
+                        frame.dispose();
+                        frame.notify();
+                    }
+                    if (e.getKeyCode() != 9 && e.getKeyCode() != 10)
+                        in = (int) e.getKeyChar();
+                    else 
+                        in = e.getKeyCode();
+                }
+                @Override
+                public void keyReleased(KeyEvent e) {
+                }
+                @Override
+                public void keyTyped(KeyEvent e) {
+                }
+            });
+            frame.setVisible(true);
+            try {
+                frame.wait();
+            } catch (InterruptedException e1) {
+            }
+        }
+        return in;
+    }
 }
