@@ -139,7 +139,7 @@ public class Shell {
             
         List<String> results = new ArrayList<String>();
 
-        File[] bin = new File("/bin").listFiles();
+        File[] bin = new File("/bin").listFiles(); //change all this to just check the path variable
         File[] sbin = new File("/sbin").listFiles();
         File[] usrBin = new File("/usr/bin").listFiles();
         File[] usrSbin = new File("/usr/sbin").listFiles();
@@ -168,7 +168,7 @@ public class Shell {
         return "";
     }
 
-    public static int getCh() {
+    public static int getCh() { //i know this isn't the most elegant solution, will fix later
         final JFrame frame = new JFrame();
         synchronized (frame) {
             frame.setUndecorated(true);
