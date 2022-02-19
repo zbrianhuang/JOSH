@@ -11,7 +11,7 @@ A basic shell written in java.
 
 ### Upcoming features
  - More config options
- - More builtin commands (pwd and ls, perhaps)
+ - More builtin commands 
  - Input/Output redirection
  - improve autocomplete
  - cleaner input
