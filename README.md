@@ -13,5 +13,5 @@ A basic shell written in java.
  - More config options
  - More builtin commands 
  - Input/Output redirection
- - improve autocomplete
- - cleaner input
+ - Improve autocomplete
+ - Cleaner input
