@@ -15,7 +15,7 @@ public class Config {
     private static String dir;
     private static String date = java.time.LocalDate.now().toString();
     private static String time = java.time.LocalTime.now().toString();
-
+    
     public static String PROMPT(int append) { 
         try {
             dir = Files.readAllLines(Paths.get(System.getProperty("java.io.tmpdir")
