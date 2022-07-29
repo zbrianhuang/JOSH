@@ -24,7 +24,7 @@ public class Config {
             dir = System.getProperty("user.dir");
         }
 
-        return "(" + name + ":" + dir + ":" + date + ") - "; //this is where you actually change the prompt
+        return "(" + name + ":" + dir + ":" + date + ") - "; //this is where you actually change the prompt.
     }    
 }
 
